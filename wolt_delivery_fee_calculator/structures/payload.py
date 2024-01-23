@@ -1,10 +1,10 @@
 from dateutil import parser
-from pydantic import Basemodel, Field
+from pydantic import BaseModel, Field
 
 from wolt_delivery_fee_calculator.constants import *
 
 
-class DeliveryFeeRequest(Basemodel):
+class DeliveryFeeRequest(BaseModel):
     cart_value: int # in cents
     delivery_distance: int # in meters
     number_of_items: int

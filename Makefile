@@ -1,7 +1,8 @@
 .PHONY: all venv hooks lint analyse test run run-in-docker
 .IGNORE: analyse
 
-PROJECT_NAME = wolt-delivery-fee-calculator
+PROJECT_NAME = wolt_delivery_fee_calculator
+FLASK_PORT=8080
 VENV_NAME ?= venv
 PYTHON = ${VENV_NAME}/bin/python
 SYS_PYTHON = python3.10
@@ -27,7 +28,7 @@ test: venv
 	${PYTHON} -m pytest test --tb=line -s
 
 run: venv
-	${PYTHON} -m flask --app ${PROJECT_NAME} run --debug
+	${PYTHON} -m flask --app ${PROJECT_NAME} run --port ${FLASK_PORT} --debug
 
 clean:
 	rm -rf $(VENV_NAME)
