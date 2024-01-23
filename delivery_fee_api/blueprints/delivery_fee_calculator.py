@@ -1,9 +1,9 @@
 from flask import Blueprint, request
-from wolt_delivery_fee_calculator.structures.payload import DeliveryFeeRequest
+from delivery_fee_api.structures.payload import DeliveryFeeRequest
 
 delivery_fee_calculator = Blueprint('delivery_fee_calculator', 
                                     __name__, 
-                                    url_prefix='/delivery_fee_calculator')
+                                    url_prefix='/delivery-fee-calculator')
 
 
 @delivery_fee_calculator.route('/', methods=['POST'], strict_slashes=False)

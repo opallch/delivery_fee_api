@@ -1,5 +1,5 @@
 from flask import Flask
-from wolt_delivery_fee_calculator import blueprints
+from delivery_fee_api import blueprints
 
 
 def create_app() -> Flask:

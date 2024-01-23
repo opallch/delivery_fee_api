@@ -1,7 +1,7 @@
 from dateutil import parser
 from pydantic import BaseModel, Field
 
-from wolt_delivery_fee_calculator.constants import *
+from delivery_fee_api.constants import *
 
 
 class DeliveryFeeRequest(BaseModel):

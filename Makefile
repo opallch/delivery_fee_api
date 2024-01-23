@@ -1,7 +1,7 @@
 .PHONY: all venv hooks lint analyse test run run-in-docker
 .IGNORE: analyse
 
-PROJECT_NAME = wolt_delivery_fee_calculator
+PROJECT_NAME = delivery_fee_api
 FLASK_PORT=8080
 VENV_NAME ?= venv
 PYTHON = ${VENV_NAME}/bin/python
