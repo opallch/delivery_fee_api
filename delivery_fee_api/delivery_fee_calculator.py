@@ -1,46 +1,55 @@
 from dateutil import parser
-import delivery_fee_api.constants as c
+import configparser
 from delivery_fee_api.structures.payload import DeliveryFeeRequestPayload
+from delivery_fee_api.structures.constants import DeliveryFeeParameters
 
-# TODO one class handle delivery calculation
+
 class DelieveryFeeCalculator:
-
-    # TODO rewrite logic, beware of the unit
-    @classmethod
-    def total_delivery_fee(cls, payload:DeliveryFeeRequestPayload) -> float:
-        total_in_cents = 0.0
-        if payload.cart_value >= c.LARGE_CART_VAL * 100:
-            return total_in_cents
-        if payload.cart_value < c.SMALL_CART_VAL * 100:
-            total_in_cents += (c.SMALL_CART_VAL - payload.cart_value) * 100
-        total_in_cents += cls._delivery_fee_distance(payload)
-        total_in_cents += cls._delivery_fee_n_items(payload)
-        if cls._ordered_in_rush(payload):
-            total_in_cents *= c.RUSH_MULTIPLIER
-        return min(total_in_cents, c.MAX_DELIEVERY_FEE * 100)
-
-    @classmethod
-    def _delivery_fee_distance(cls, payload:DeliveryFeeRequestPayload) -> float:
-        subtotal_in_euro = c.INIT_DISTANCE_FEE_EURO
-        if payload.delivery_distance - c.INIT_DISTANCE > 0:
-            delivery_distance = payload.delivery_distance - c.INIT_DISTANCE
-            while delivery_distance > 0:
-                subtotal_in_euro += 1
-                delivery_distance -= c.REGULAR_DISTANCE
-        return subtotal_in_euro * 100
     
-    @classmethod
-    def _delivery_fee_n_items(cls, payload:DeliveryFeeRequestPayload) -> float:
+    def __init__(self, path_to_params_ini:str):
+        # TODO load constants from delivery_fee_parameters.ini into a dict
+        # validate the loaded dict with DeliveryFeeParameters
+        # use it in the DelieveryFeeCalculator class
+        config_parser = configparser.ConfigParser()
+        with open(path_to_params_ini, 'r') as f_in:
+            config_parser.read_file(f_in)
+        output_dict= {s:dict(config_parser.items(s)) 
+                      for s in config_parser.sections()}
+        # print(output_dict)
+        self.params = DeliveryFeeParameters.model_validate(output_dict["Parameters"])
+    
+    # TODO rewrite logic, beware of the unit
+    def total_delivery_fee(self, payload:DeliveryFeeRequestPayload) -> float:
+        total_in_cents = 0.0
+        if payload.cart_value >= self.params.large_cart_value:
+            return total_in_cents
+        if payload.cart_value < self.params.small_cart_value:
+            total_in_cents += (self.params.small_cart_value - payload.cart_value)
+        total_in_cents += self._delivery_fee_distance(payload)
+        total_in_cents += self._delivery_fee_n_items(payload)
+        if self._ordered_in_rush(payload):
+            total_in_cents *= self.params.rush_multiplier
+        return min(total_in_cents, self.params.max_delivery_fee) / 100
+
+    def _delivery_fee_distance(self, payload:DeliveryFeeRequestPayload) -> float:
+        subtotal_in_cent = self.params.init_distance_fee
+        if payload.delivery_distance - self.params.init_distance_meter > 0:
+            delivery_distance = payload.delivery_distance - self.params.init_distance_meter
+            while delivery_distance > 0:
+                subtotal_in_cent += 1000
+                delivery_distance -= self.params.distance_interval_meter
+        return subtotal_in_cent
+    
+    def _delivery_fee_n_items(self, payload:DeliveryFeeRequestPayload) -> float:
         subtotal_in_euro = 0.0
-        if payload.number_of_items > c.SURCHARGE_FREE_N_ITEMS:
-            subtotal_in_euro += (payload.number_of_items - c.SURCHARGE_FREE_N_ITEMS) * c.SURCHARGE_PER_ITEM_EURO
-        if payload.number_of_items > c.EXTRA_SURCHARGE_N_ITEMS:
-            subtotal_in_euro += c.MANY_ITEMS_SURCHARGE_EURO
+        if payload.number_of_items > self.params.surcharge_free_n_items:
+            subtotal_in_euro += (payload.number_of_items - self.params.surcharge_free_n_items) * self.params.surcharge_per_item
+        if payload.number_of_items > self.params.extra_surcharge_n_items:
+            subtotal_in_euro += self.params.many_items_surcharge
         return subtotal_in_euro * 100
 
     #TODO cleaner comparison
-    @classmethod
-    def _ordered_in_rush(cls, payload:DeliveryFeeRequestPayload) -> bool:
+    def _ordered_in_rush(self, payload:DeliveryFeeRequestPayload) -> bool:
         time = parser.isoparse(payload.time)
-        return time.weekday() in c.RUSH_DAYS and \
-            (time.hour >= c.RUSH_HOURS_BEGIN and time.hour <= c.RUSH_HOURS_END)
+        return time.weekday() in self.params.rush_days and \
+            (time.hour >= self.params.rush_hours_begin and time.hour <= self.params.rush_hours_end)

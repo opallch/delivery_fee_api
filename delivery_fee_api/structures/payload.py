@@ -1,9 +1,7 @@
 from dateutil import parser
 from pydantic import BaseModel, Field
 
-from delivery_fee_api.constants import *
 
- 
 class DeliveryFeeRequestPayload(BaseModel):
     cart_value: int # in cents
     delivery_distance: int # in meters
