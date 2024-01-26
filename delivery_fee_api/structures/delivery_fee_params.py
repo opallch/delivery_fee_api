@@ -38,6 +38,7 @@ class DeliveryFeeParameters(BaseModel):
     def _parse_euro_to_cent(cls, value_euro, values):
         return value_euro * 100
 
+    #TODO validate: start != end and start < end
     @field_validator(
         'rush_hours_begin',
         'rush_hours_end',

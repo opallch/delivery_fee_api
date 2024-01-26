@@ -1,3 +1,4 @@
+from datetime import datetime
 from dateutil import parser
 from delivery_fee_api.structures.payload import DeliveryFeeRequestPayload
 from delivery_fee_api.structures.delivery_fee_params import DeliveryFeeParameters
@@ -36,10 +37,15 @@ def delivery_fee_n_items(params:DeliveryFeeParameters, n_items:int) -> float:
             subtotal_in_euro += params.many_items_surcharge
         return subtotal_in_euro * 100
 
-#TODO 
+def time_in_time_span(time:datetime, time_span_start: datetime, time_span_end: datetime):
+    if time.hour == time_span_start.hour and time.hour == time_span_end.hour:
+        return time.minute >= time_span_start.minute and time.minute <= time_span_end.minute
+    return (time.hour >= time_span_start.hour and time.hour < time_span_end.hour) or \
+        (time.hour > time_span_start.hour and time.hour <= time_span_end.hour) 
+
 def ordered_in_rush(params:DeliveryFeeParameters, order_time:str) -> bool:
-    return False
-    parsed_time = parser.isoparse(order_time)
-    # TODO compare
-    return time.weekday() in params.rush_days and \
-        (time.hour >= params.rush_hours_begin and time.hour <= params.rush_hours_end)
+    parsed_order_time = parser.isoparse(order_time)
+    rush_hours_begin = datetime.strptime(params.rush_hours_begin, "%H:%M")
+    rush_hours_end = datetime.strptime(params.rush_hours_end, "%H:%M")
+    
+    return time_in_time_span(parsed_order_time, rush_hours_begin, rush_hours_end)
