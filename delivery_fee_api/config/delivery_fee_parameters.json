@@ -1,7 +1,7 @@
 {
     "small_cart_value_euro": 10, 
     "large_cart_value_euro": 200,
-    "max_delivery_fee_euro": 150,
+    "max_delivery_fee_euro": 15,
 
     "init_distance_meter": 1000,
     "init_distance_fee_euro": 2,

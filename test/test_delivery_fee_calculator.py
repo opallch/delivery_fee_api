@@ -3,6 +3,7 @@ from datetime import datetime
 from delivery_fee_api.structures.payload import DeliveryFeeRequestPayload
 from delivery_fee_api.structures.delivery_fee_params import DeliveryFeeParameters
 from delivery_fee_api.delivery_fee_calculator import total_delivery_fee, \
+                                                        delivery_fee_small_cart_value, \
                                                         delivery_fee_distance, \
                                                         delivery_fee_n_items, \
                                                         ordered_in_rush, \
@@ -27,13 +28,28 @@ PAYLOAD_RUSH = DeliveryFeeRequestPayload.model_validate(
     }
 )
 
+PAYLOAD_LARGE_CART_VAL = DeliveryFeeRequestPayload.model_validate(
+    {
+        "cart_value": 201 * 100, 
+        "delivery_distance": 2235, 
+        "number_of_items": 4, 
+        "time": "2024-01-19T18:59:00Z"
+    }
+)
+
 with open("delivery_fee_api/config/delivery_fee_parameters.json", 'r') as f_in:
     PARAMS = DeliveryFeeParameters.model_validate_json(f_in.read())
 
 
-def test_total_delivery_fee():
-    assert total_delivery_fee(PARAMS, PAYLOAD) == 790 
+def test_total_delivery_fee_1():
+    assert total_delivery_fee(PARAMS, PAYLOAD) == 710
 
+def test_total_delivery_fee_2():
+    assert total_delivery_fee(PARAMS, PAYLOAD_LARGE_CART_VAL) == 0 
+
+# TODO instead of parsing to int, check assert loose option
+def test_delivery_fee_small_cart_value():
+    assert int(delivery_fee_small_cart_value(PARAMS, 8.9 * 100)) == int(1.1 * 100)
 
 def test_delivery_fee_distance_1():
     assert delivery_fee_distance(PARAMS, distance=1499) == 3 * 100

@@ -6,11 +6,12 @@ from delivery_fee_api.structures.delivery_fee_params import DeliveryFeeParameter
 
 def total_delivery_fee(params:DeliveryFeeParameters, payload:DeliveryFeeRequestPayload) -> float:
     total_in_cents = 0.0
+    
     if payload.cart_value >= params.large_cart_value:
         return total_in_cents
-    
+
     if payload.cart_value < params.small_cart_value:
-        total_in_cents += (params.small_cart_value - payload.cart_value)
+        total_in_cents += delivery_fee_small_cart_value(params, payload.cart_value)
     
     total_in_cents += delivery_fee_distance(params, payload.delivery_distance)
     total_in_cents += delivery_fee_n_items(params, payload.number_of_items)
@@ -18,16 +19,19 @@ def total_delivery_fee(params:DeliveryFeeParameters, payload:DeliveryFeeRequestP
     if ordered_in_rush(params, payload.time):
         total_in_cents *= params.rush_multiplier
 
-    return min(total_in_cents, params.max_delivery_fee) 
+    return int(min(total_in_cents, params.max_delivery_fee)) 
+
+def delivery_fee_small_cart_value(params:DeliveryFeeParameters, cart_value:float):
+    return params.small_cart_value - cart_value
 
 def delivery_fee_distance(params:DeliveryFeeParameters, distance:int) -> float:
-        subtotal_in_cent = params.init_distance_fee
-        if distance - params.init_distance_meter > 0:
-            delivery_distance = distance - params.init_distance_meter
-            while delivery_distance > 0:
-                subtotal_in_cent += params.distance_fee_per_interval
-                delivery_distance -= params.distance_interval_meter
-        return subtotal_in_cent
+    subtotal_in_cent = params.init_distance_fee
+    if distance - params.init_distance_meter > 0:
+        delivery_distance = distance - params.init_distance_meter
+        while delivery_distance > 0:
+            subtotal_in_cent += params.distance_fee_per_interval
+            delivery_distance -= params.distance_interval_meter
+    return subtotal_in_cent
 
 def delivery_fee_n_items(params:DeliveryFeeParameters, n_items:int) -> float:
         subtotal_in_cent = 0.0
