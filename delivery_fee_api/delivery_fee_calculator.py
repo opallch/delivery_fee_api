@@ -1,55 +1,45 @@
 from dateutil import parser
-import configparser
 from delivery_fee_api.structures.payload import DeliveryFeeRequestPayload
-from delivery_fee_api.structures.constants import DeliveryFeeParameters
+from delivery_fee_api.structures.delivery_fee_params import DeliveryFeeParameters
 
 
-class DelieveryFeeCalculator:
+def total_delivery_fee(params:DeliveryFeeParameters, payload:DeliveryFeeRequestPayload) -> float:
+    total_in_cents = 0.0
+    if payload.cart_value >= params.large_cart_value:
+        return total_in_cents
     
-    def __init__(self, path_to_params_ini:str):
-        # TODO load constants from delivery_fee_parameters.ini into a dict
-        # validate the loaded dict with DeliveryFeeParameters
-        # use it in the DelieveryFeeCalculator class
-        config_parser = configparser.ConfigParser()
-        with open(path_to_params_ini, 'r') as f_in:
-            config_parser.read_file(f_in)
-        output_dict= {s:dict(config_parser.items(s)) 
-                      for s in config_parser.sections()}
-        # print(output_dict)
-        self.params = DeliveryFeeParameters.model_validate(output_dict["Parameters"])
+    if payload.cart_value < params.small_cart_value:
+        total_in_cents += (params.small_cart_value - payload.cart_value)
     
-    # TODO rewrite logic, beware of the unit
-    def total_delivery_fee(self, payload:DeliveryFeeRequestPayload) -> float:
-        total_in_cents = 0.0
-        if payload.cart_value >= self.params.large_cart_value:
-            return total_in_cents
-        if payload.cart_value < self.params.small_cart_value:
-            total_in_cents += (self.params.small_cart_value - payload.cart_value)
-        total_in_cents += self._delivery_fee_distance(payload)
-        total_in_cents += self._delivery_fee_n_items(payload)
-        if self._ordered_in_rush(payload):
-            total_in_cents *= self.params.rush_multiplier
-        return min(total_in_cents, self.params.max_delivery_fee) / 100
+    total_in_cents += delivery_fee_distance(params, payload.delivery_distance)
+    total_in_cents += delivery_fee_n_items(params, payload.number_of_items)
+    
+    if ordered_in_rush(params, payload.time):
+        total_in_cents *= params.rush_multiplier
 
-    def _delivery_fee_distance(self, payload:DeliveryFeeRequestPayload) -> float:
-        subtotal_in_cent = self.params.init_distance_fee
-        if payload.delivery_distance - self.params.init_distance_meter > 0:
-            delivery_distance = payload.delivery_distance - self.params.init_distance_meter
+    return min(total_in_cents, params.max_delivery_fee) 
+
+def delivery_fee_distance(params:DeliveryFeeParameters, distance:int) -> float:
+        subtotal_in_cent = params.init_distance_fee
+        if distance - params.init_distance_meter > 0:
+            delivery_distance = distance - params.init_distance_meter
             while delivery_distance > 0:
-                subtotal_in_cent += 1000
-                delivery_distance -= self.params.distance_interval_meter
+                subtotal_in_cent += params.distance_fee_per_interval
+                delivery_distance -= params.distance_interval_meter
         return subtotal_in_cent
-    
-    def _delivery_fee_n_items(self, payload:DeliveryFeeRequestPayload) -> float:
+
+def delivery_fee_n_items(params:DeliveryFeeParameters, n_items:int) -> float:
         subtotal_in_euro = 0.0
-        if payload.number_of_items > self.params.surcharge_free_n_items:
-            subtotal_in_euro += (payload.number_of_items - self.params.surcharge_free_n_items) * self.params.surcharge_per_item
-        if payload.number_of_items > self.params.extra_surcharge_n_items:
-            subtotal_in_euro += self.params.many_items_surcharge
+        if n_items > params.surcharge_free_n_items:
+            subtotal_in_euro += (n_items - params.surcharge_free_n_items) * params.surcharge_per_item
+        if n_items > params.extra_surcharge_n_items:
+            subtotal_in_euro += params.many_items_surcharge
         return subtotal_in_euro * 100
 
-    #TODO cleaner comparison
-    def _ordered_in_rush(self, payload:DeliveryFeeRequestPayload) -> bool:
-        time = parser.isoparse(payload.time)
-        return time.weekday() in self.params.rush_days and \
-            (time.hour >= self.params.rush_hours_begin and time.hour <= self.params.rush_hours_end)
+#TODO 
+def ordered_in_rush(params:DeliveryFeeParameters, order_time:str) -> bool:
+    return False
+    parsed_time = parser.isoparse(order_time)
+    # TODO compare
+    return time.weekday() in params.rush_days and \
+        (time.hour >= params.rush_hours_begin and time.hour <= params.rush_hours_end)
