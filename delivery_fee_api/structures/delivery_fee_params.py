@@ -22,7 +22,8 @@ class DeliveryFeeParameters(BaseModel):
     many_items_surcharge: float = Field(alias="many_items_surcharge_euro")
 
     rush_multiplier: float
-    rush_days: List[str] 
+    rush_days: List[str]
+    # TODO optional: change format of time? 
     rush_hours_begin: str 
     rush_hours_end: str
 
@@ -30,6 +31,8 @@ class DeliveryFeeParameters(BaseModel):
             'small_cart_value',
             'large_cart_value',
             'max_delivery_fee',
+            'init_distance_fee',
+            'distance_fee_per_interval',
             'surcharge_per_item',
             'many_items_surcharge',
             mode='before'

@@ -2,7 +2,11 @@ from datetime import datetime
 
 from delivery_fee_api.structures.payload import DeliveryFeeRequestPayload
 from delivery_fee_api.structures.delivery_fee_params import DeliveryFeeParameters
-from delivery_fee_api.delivery_fee_calculator import total_delivery_fee, ordered_in_rush, time_in_time_span
+from delivery_fee_api.delivery_fee_calculator import total_delivery_fee, \
+                                                        delivery_fee_distance, \
+                                                        delivery_fee_n_items, \
+                                                        ordered_in_rush, \
+                                                        time_in_time_span \
 
 # TODO make many test cases
 PAYLOAD = DeliveryFeeRequestPayload.model_validate(
@@ -31,8 +35,14 @@ def test_total_delivery_fee():
     assert total_delivery_fee(PARAMS, PAYLOAD) == 790 
 
 
-def test_delivery_fee_distance():
-    pass
+def test_delivery_fee_distance_1():
+    assert delivery_fee_distance(PARAMS, distance=1499) == 3 * 100
+
+def test_delivery_fee_distance_2():
+    assert delivery_fee_distance(PARAMS, distance=1500) == 3 * 100
+
+def test_delivery_fee_distance_3():
+    assert delivery_fee_distance(PARAMS, distance=1501) == 4 * 100
 
 def test_delivery_fee_n_items():
     pass
