@@ -13,5 +13,5 @@ PAYLOAD = DeliveryFeeRequestPayload.model_validate(
 
 
 def test_delivery_fee():
-    calculator = DelieveryFeeCalculator("delivery_fee_api/config/delivery_fee_parameters.ini")
+    calculator = DelieveryFeeCalculator("delivery_fee_api/config/delivery_fee_parameters.json")
     assert calculator.total_delivery_fee(PAYLOAD) == 790 

@@ -25,7 +25,7 @@ lint: venv
 	    --per-file-ignores "test/*:E501"
 
 test: venv
-	${PYTHON} -m pytest test --tb=line -s
+	${PYTHON} -m pytest test --tb=long -s
 
 run: venv
 	${PYTHON} -m flask --app ${PROJECT_NAME} run --port ${FLASK_PORT} --debug
