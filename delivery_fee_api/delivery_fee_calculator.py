@@ -30,12 +30,12 @@ def delivery_fee_distance(params:DeliveryFeeParameters, distance:int) -> float:
         return subtotal_in_cent
 
 def delivery_fee_n_items(params:DeliveryFeeParameters, n_items:int) -> float:
-        subtotal_in_euro = 0.0
+        subtotal_in_cent = 0.0
         if n_items > params.surcharge_free_n_items:
-            subtotal_in_euro += (n_items - params.surcharge_free_n_items) * params.surcharge_per_item
+            subtotal_in_cent += (n_items - params.surcharge_free_n_items) * params.surcharge_per_item
         if n_items > params.extra_surcharge_n_items:
-            subtotal_in_euro += params.many_items_surcharge
-        return subtotal_in_euro * 100
+            subtotal_in_cent += params.many_items_surcharge
+        return subtotal_in_cent
 
 def time_in_time_span(time:datetime, time_span_start: datetime, time_span_end: datetime):
     if time.hour == time_span_start.hour and time.hour == time_span_end.hour:

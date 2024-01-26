@@ -44,9 +44,20 @@ def test_delivery_fee_distance_2():
 def test_delivery_fee_distance_3():
     assert delivery_fee_distance(PARAMS, distance=1501) == 4 * 100
 
-def test_delivery_fee_n_items():
-    pass
+def test_delivery_fee_n_items_1():
+    assert delivery_fee_n_items(PARAMS, n_items=4) == 0 
 
+def test_delivery_fee_n_items_2():
+    assert delivery_fee_n_items(PARAMS, n_items=5) == 0.5 * 100
+
+def test_delivery_fee_n_items_3():
+    assert delivery_fee_n_items(PARAMS, n_items=10) == 3 * 100
+
+def test_delivery_fee_n_items_4():
+    assert delivery_fee_n_items(PARAMS, n_items=13) == 5.7 * 100
+
+def test_delivery_fee_n_items_5():
+    assert delivery_fee_n_items(PARAMS, n_items=14) == 6.2 * 100
 
 def test_ordered_in_rush_true():
     assert ordered_in_rush(PARAMS, PAYLOAD_RUSH.time) == True
