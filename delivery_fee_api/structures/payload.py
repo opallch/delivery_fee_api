@@ -1,5 +1,5 @@
 from dateutil import parser
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 
 
 class DeliveryFeeRequestPayload(BaseModel):
@@ -8,4 +8,10 @@ class DeliveryFeeRequestPayload(BaseModel):
     number_of_items: int
     time: str # in ISO format, e.g. 2024-01-15T13:00:00Z
     
-    # TODO custom validators
+    @field_validator('time', mode='before')
+    @classmethod
+    def validate_time(cls, time):
+        try:
+            parser.isoparse(time)
+        except ValueError as e:
+            raise ValueError(f"Format of time in payload '{time}' is invalid") from e
