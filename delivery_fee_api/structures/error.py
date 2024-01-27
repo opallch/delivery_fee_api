@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
 class ErrorResponse(BaseModel):
-    code: str
+    code: int
     name: str
     description: str 
     status: str = 'error'

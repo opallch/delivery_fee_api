@@ -15,3 +15,4 @@ class DeliveryFeeRequestPayload(BaseModel):
             parser.isoparse(time)
         except ValueError as e:
             raise ValueError(f"Format of time in payload '{time}' is invalid") from e
+        return time
