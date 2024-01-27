@@ -1,8 +1,9 @@
 {
+    "NOTES": "refer to the README for the descriptions of parameters!",
+    
     "small_cart_value_euro": 10, 
     "large_cart_value_euro": 200,
     "max_delivery_fee_euro": 15,
-
     "init_distance_meter": 1000,
     "init_distance_fee_euro": 2,
     "distance_interval_meter": 500,
@@ -16,5 +17,6 @@
     "rush_multiplier": 1.2,
     "rush_days": ["Friday"],
     "rush_hours_begin": "15:00",
-    "rush_hours_end": "19:00"
+    "rush_hours_end": "19:00",
+    "time_zone": "Europe/Berlin"
 }

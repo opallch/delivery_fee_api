@@ -17,5 +17,3 @@ def test_parse_euro_to_cent():
     assert validated_params.distance_fee_per_interval == params["distance_fee_per_interval_euro"] * 100
     assert validated_params.surcharge_per_item == params["surcharge_per_item_euro"] * 100
     assert validated_params.many_items_surcharge == params["many_items_surcharge_euro"] * 100
-
-

@@ -1,5 +1,6 @@
 from pydantic import BaseModel, field_validator, ConfigDict, Field
 from datetime import datetime
+from dateutil import tz
 from typing import List
 
 class DeliveryFeeParameters(BaseModel):
@@ -23,9 +24,9 @@ class DeliveryFeeParameters(BaseModel):
 
     rush_multiplier: float
     rush_days: List[str]
-    # TODO optional: change format of time? 
     rush_hours_begin: str 
     rush_hours_end: str
+    time_zone: str
 
     @field_validator(
             'small_cart_value',
@@ -41,7 +42,12 @@ class DeliveryFeeParameters(BaseModel):
     def _parse_euro_to_cent(cls, value_euro, values):
         return value_euro * 100
 
-    #TODO validate: start != end and start < end
+    @field_validator('time_zone')
+    @classmethod
+    def validate_timezone(cls, timezone):
+        if tz.gettz(timezone) is None:
+            raise ValueError(f"Input time zone {timezone} cannot be found, make sure it is on the list at https://en.wikipedia.org/wiki/List_of_tz_database_time_zones")
+
     @field_validator(
         'rush_hours_begin',
         'rush_hours_end',
