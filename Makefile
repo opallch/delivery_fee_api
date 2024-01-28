@@ -1,6 +1,9 @@
 .PHONY: all venv hooks lint analyse test run run-in-docker
 .IGNORE: analyse
 
+include .env
+export
+
 PROJECT_NAME = delivery_fee_api
 FLASK_PORT=8080
 VENV_NAME ?= venv

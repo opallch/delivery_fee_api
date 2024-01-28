@@ -6,6 +6,7 @@ from delivery_fee_api.structures.payload import DeliveryFeeRequestPayload
 from delivery_fee_api.structures.delivery_fee_params import DeliveryFeeParameters
 from delivery_fee_api.structures.response import DeliveryFeeResponse
 from delivery_fee_api.delivery_fee_calculator import total_delivery_fee
+from delivery_fee_api.constants import DELIVERY_FEE_PARAMETERS
 
 delivery_fee_calculator = Blueprint('delivery_fee_calculator', 
                                     __name__, 
@@ -22,9 +23,5 @@ def calculate_cost():
     except ValidationError as e: 
         raise BadRequest from e
 
-    path_to_params = "delivery_fee_api/config/delivery_fee_parameters.json"
-    with open(path_to_params, 'r') as f_in:
-        params = DeliveryFeeParameters.model_validate_json(f_in.read())
-
-    delivery_fee = total_delivery_fee(params=params, payload=payload)
+    delivery_fee = total_delivery_fee(params=DELIVERY_FEE_PARAMETERS, payload=payload)
     return DeliveryFeeResponse(delivery_fee=delivery_fee).model_dump_json()
