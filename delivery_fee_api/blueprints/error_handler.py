@@ -1,3 +1,4 @@
+from logging import getLogger
 from pydantic import ValidationError
 from flask import Blueprint
 from werkzeug.exceptions import HTTPException, BadRequest
@@ -25,4 +26,5 @@ def handle_error(e):
         description=description,
         ).model_dump_json()
     response.content_type = "application/json"
+
     return response

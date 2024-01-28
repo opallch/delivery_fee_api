@@ -1,0 +1,10 @@
+services:
+  delivery_fee_api:
+    env_file:
+      - .env
+    build: .
+    ports:
+      - "${FLASK_PORT}:${FLASK_PORT}"
+    environment:
+      - PATH_TO_DELIVERY_PARAMS=$PATH_TO_DELIVERY_PARAMS
+      

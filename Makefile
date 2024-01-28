@@ -10,17 +10,13 @@ VENV_NAME ?= venv
 PYTHON = ${VENV_NAME}/bin/python
 SYS_PYTHON = python3.10
 
-all: venv hooks
+all: venv
 
 ${VENV_NAME}/bin/activate: requirements.txt dev-requirements.txt
 	${SYS_PYTHON} -m venv ${VENV_NAME}
 	${PYTHON} -m pip install -r requirements.txt
 	${PYTHON} -m pip install -r dev-requirements.txt
 venv: ${VENV_NAME}/bin/activate
-
-hooks:
-	cp .githooks/* .git/hooks/
-	chmod a+x .git/hooks/*
 
 lint: venv
 	${PYTHON} -m pylint ${PROJECT_NAME} test -E
