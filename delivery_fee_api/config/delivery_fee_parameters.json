@@ -15,8 +15,12 @@
     "many_items_surcharge_euro": 1.2,
     
     "rush_multiplier": 1.2,
-    "rush_days": ["Friday"],
-    "rush_hours_begin": "15:00",
-    "rush_hours_end": "19:00",
+    "rush_hours": [
+        {
+            "day_of_week": "Friday",
+            "begin_time": "15:00",
+            "end_time": "19:00"
+        }
+    ],
     "time_zone": "Europe/Berlin"
 }

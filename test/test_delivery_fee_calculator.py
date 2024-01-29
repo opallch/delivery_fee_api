@@ -7,7 +7,7 @@ from delivery_fee_api.delivery_fee_calculator import total_delivery_fee, \
                                                         delivery_fee_distance, \
                                                         delivery_fee_n_items, \
                                                         ordered_in_rush, \
-                                                        time_in_time_span 
+                                                        _time_in_time_span 
 from delivery_fee_api.constants import DELIVERY_FEE_PARAMETERS
 
 # TODO make many test cases
@@ -83,32 +83,32 @@ def test_time_in_time_span_true1_1():
     span_start = datetime.strptime("00:00", "%H:%M")
     span_end = datetime.strptime("23:00", "%H:%M")
 
-    assert time_in_time_span(time, span_start, span_end) == True
+    assert _time_in_time_span(time, span_start, span_end) == True
 
 def test_time_in_time_span_true_2():
     time = datetime.strptime("12:42", "%H:%M")
     span_start = datetime.strptime("12:00", "%H:%M")
     span_end = datetime.strptime("12:59", "%H:%M")
 
-    assert time_in_time_span(time, span_start, span_end) == True
+    assert _time_in_time_span(time, span_start, span_end) == True
 
 def test_time_in_time_span_true_3():
     time = datetime.strptime("12:42", "%H:%M")
     span_start = datetime.strptime("12:00", "%H:%M")
     span_end = datetime.strptime("15:00", "%H:%M")
 
-    assert time_in_time_span(time, span_start, span_end) == True
+    assert _time_in_time_span(time, span_start, span_end) == True
 
 def test_time_in_time_span_true_4():
     time = datetime.strptime("14:37", "%H:%M")
     span_start = datetime.strptime("12:00", "%H:%M")
     span_end = datetime.strptime("14:59", "%H:%M")
 
-    assert time_in_time_span(time, span_start, span_end) == True
+    assert _time_in_time_span(time, span_start, span_end) == True
 
 def test_time_in_time_span_false():
     time = datetime.strptime("20:24", "%H:%M")
     span_start = datetime.strptime("12:00", "%H:%M")
     span_end = datetime.strptime("17:00", "%H:%M")
 
-    assert time_in_time_span(time, span_start, span_end) == False
+    assert _time_in_time_span(time, span_start, span_end) == False
