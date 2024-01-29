@@ -14,7 +14,7 @@ class DeliveryFeeRequestPayload(BaseModel):
         try:
             parser.isoparse(time)
         except ValueError as e:
-            raise ValueError(f"Format of time in payload '{time}' is invalid") from e
+            raise ValueError(f"Format of time in payload '{time}' is invalid, make sure it is in ISO format (see https://en.wikipedia.org/wiki/ISO_8601)") from e
         return time
 
 class DeliveryFeeResponsePayload(BaseModel):

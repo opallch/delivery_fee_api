@@ -10,7 +10,8 @@ from delivery_fee_api.delivery_fee_calculator import total_delivery_fee, \
                                                         _time_in_time_span 
 from delivery_fee_api.constants import DELIVERY_FEE_PARAMETERS
 
-# TODO make many test cases
+# TODO test with other delivery fee params
+
 PAYLOAD = DeliveryFeeRequestPayload.model_validate(
     {
         "cart_value": 790, 

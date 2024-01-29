@@ -6,6 +6,8 @@ from delivery_fee_api.structures.error import HTTPErrorResponse
 
 error_handler = Blueprint('error', __name__)
 
+_LOGGER = getLogger(__name__)
+
 # TODO extend it to more exception?
 @error_handler.app_errorhandler(HTTPException)
 def handle_error(e):
@@ -26,5 +28,13 @@ def handle_error(e):
         description=description,
         ).model_dump_json()
     response.content_type = "application/json"
+    
+    _LOGGER.error(
+        msg="HTTP Error",
+        extra={
+            "code": str(e.code),
+            "error_name": e.name,
+            "description": description,
+    })
 
     return response
