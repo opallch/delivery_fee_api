@@ -1,5 +1,5 @@
 from dateutil import parser
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, field_validator
 
 
 class DeliveryFeeRequestPayload(BaseModel):
@@ -16,3 +16,6 @@ class DeliveryFeeRequestPayload(BaseModel):
         except ValueError as e:
             raise ValueError(f"Format of time in payload '{time}' is invalid") from e
         return time
+
+class DeliveryFeeResponsePayload(BaseModel):
+    delivery_fee: int

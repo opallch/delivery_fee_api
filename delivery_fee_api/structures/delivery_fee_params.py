@@ -4,7 +4,7 @@ from dateutil import tz
 from typing import List
 
 class DeliveryFeeParameters(BaseModel):
-    """Dataclass for storing parameters 
+    """Data class for storing parameters 
     needed for calculating the delievery fee."""
     model_config = ConfigDict(frozen=True)
 
@@ -46,7 +46,7 @@ class DeliveryFeeParameters(BaseModel):
     @classmethod
     def validate_timezone(cls, timezone):
         if tz.gettz(timezone) is None:
-            raise ValueError(f"Input time zone {timezone} cannot be found, make sure it is on the list at https://en.wikipedia.org/wiki/List_of_tz_database_time_zones")
+            raise ValueError(f"time_zone defined in the config file '{timezone}' cannot be found, make sure it is on the list at https://en.wikipedia.org/wiki/List_of_tz_database_time_zones")
 
     @field_validator(
         'rush_hours_begin',

@@ -2,7 +2,7 @@ from logging import getLogger
 from pydantic import ValidationError
 from flask import Blueprint
 from werkzeug.exceptions import HTTPException, BadRequest
-from delivery_fee_api.structures.error import ErrorResponse
+from delivery_fee_api.structures.error import HTTPErrorResponse
 
 error_handler = Blueprint('error', __name__)
 
@@ -20,7 +20,7 @@ def handle_error(e):
         if isinstance(e.__cause__, ValidationError):
             description = str(e.__cause__)
     # replace the body with ErrorResponse json
-    response.data = ErrorResponse(
+    response.data = HTTPErrorResponse(
         code=e.code,
         name=e.name,
         description=description,
