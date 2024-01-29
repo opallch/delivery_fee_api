@@ -7,4 +7,5 @@ services:
       - "${FLASK_PORT}:${FLASK_PORT}"
     environment:
       - PATH_TO_DELIVERY_PARAMS=$PATH_TO_DELIVERY_PARAMS
-      
+    volumes:
+      - ${HOST_LOG_PATH}:${LOG_PATH}
