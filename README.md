@@ -101,3 +101,8 @@ There are several parameters for calculating the final delivery cost in the API 
 is placed during the rush time, the total fee will be multiplied by `rush_multiplier`. Rush hours are defined by `rush_days`, `rush_hours_begin` and `rush_hours_end` (in `time_zone`).
 
 **NOTES**: Parameters regarding charges should be set up **in euros**. They will later be transformed into cents in the API.
+
+## Logging
+Extra loggers for HTTP requests, responses & errors are available for docker deployment.
+You may configure the `LOG_PATH` for the container and `HOST_LOG_PATH` for the binded volumne on the host machine in [.env](.env). 
+Logs can then be found in `delivery_fee_api_http.log` under the configured path.
