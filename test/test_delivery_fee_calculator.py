@@ -48,8 +48,17 @@ PAYLOAD_RUSH_FOR_PARAMS_MULTI_RUSH_HOURS = DeliveryFeeRequestPayload.model_valid
 
 PAYLOAD_LARGE_CART_VAL = DeliveryFeeRequestPayload.model_validate(
     {
-        "cart_value": 20100,
+        "cart_value": 20000,
         "delivery_distance": 2235,
+        "number_of_items": 4,
+        "time": "2024-01-19T18:59:00Z"
+    }
+)
+
+PAYLOAD_TOTAL_OVER_MAX = DeliveryFeeRequestPayload.model_validate(
+    {
+        "cart_value": 790,
+        "delivery_distance": 10000,
         "number_of_items": 4,
         "time": "2024-01-19T18:59:00Z"
     }
@@ -68,6 +77,10 @@ def test_total_delivery_fee_3():
     assert total_delivery_fee(PARAMS, PAYLOAD_RUSH_FOR_PARAMS) == 852
 
 
+def test_total_delivery_fee_14():
+    assert total_delivery_fee(PARAMS, PAYLOAD_TOTAL_OVER_MAX) == 1500
+
+
 def test_delivery_surcharge_small_cart_value():
     assert delivery_surcharge_small_cart_value(PARAMS, 890) == 110
 
@@ -82,6 +95,22 @@ def test_delivery_fee_distance_2():
 
 def test_delivery_fee_distance_3():
     assert delivery_fee_distance(PARAMS, distance=1501) == 400
+
+
+def test_delivery_fee_distance_4():
+    assert delivery_fee_distance(PARAMS, distance=1431) == 300
+
+
+def test_delivery_fee_distance_5():
+    assert delivery_fee_distance(PARAMS, distance=999) == 200
+
+
+def test_delivery_fee_distance_6():
+    assert delivery_fee_distance(PARAMS, distance=1000) == 200
+
+
+def test_delivery_fee_distance_7():
+    assert delivery_fee_distance(PARAMS, distance=4862) == 1000
 
 
 def test_delivery_fee_n_items_1():
