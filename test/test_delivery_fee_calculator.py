@@ -155,7 +155,7 @@ def test_ordered_in_rush_true_2():
         PARAMS_MULTI_RUSH_HOURS,
         PAYLOAD_RUSH_FOR_PARAMS_MULTI_RUSH_HOURS.time) == True
 
-# TODO
+
 def test_ordered_in_rush_true_3():
     assert ordered_in_rush(
         PARAMS_DIFF_TZ,
@@ -179,7 +179,7 @@ def test_ordered_in_rush_false_4():
         PARAMS_NO_RUSH_HOURS,
         PAYLOAD_RUSH_FOR_PARAMS_MULTI_RUSH_HOURS.time) == False
     
-# TODO
+
 def test_ordered_in_rush_false_5():
     assert ordered_in_rush(
         PARAMS_DIFF_TZ,

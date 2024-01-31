@@ -8,7 +8,7 @@ error_handler = Blueprint('error', __name__)
 
 _LOGGER = getLogger(__name__)
 
-# TODO extend it to more exception?
+
 @error_handler.app_errorhandler(HTTPException)
 def handle_error(e):
     """

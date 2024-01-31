@@ -2,7 +2,7 @@
 This repository contains the implementation of an HTTP API (single POST endpoint `delivery-fee-calculator`) which could be used for calculating the delivery fee, using Flask. All payloads and parameters needed for calculating the delivery fee are implemented as pydantic classes in order to have a better validation.
 
 ## Running the API & Prerequisites
-Running the API (with development server) is recommended for local development, but running in Docker (with gunicorn) is also possible (this is implemented mainly as an option for deployment). First, clone this repository and go to the root of this repository.
+Running the API (with development server) is recommended for local development, but running in Docker (with gunicorn) is also possible (this is implemented mainly as an option for deployment). First, head to the root of this project.
 
 ### Running without Development Server
 1. Prerequisites: 
@@ -14,7 +14,7 @@ Running the API (with development server) is recommended for local development, 
 ```sh
 make
 ```
-4. Activate the virtual environment
+4. (optional) Activate the virtual environment
 ```sh
 source ./venv/bin/activate
 ```
@@ -40,7 +40,7 @@ docker compose up
 
 ## Request and Response Payload
 ### Sending POST Request
-No matter you are running the API in or outside the Docker, you should now be able to send a POST request at `localhost:FLASK_PORT/delivery-fee-calculator` (by default: [localhost:8080/delivery-fee-calculator](localhost:8080/delivery-fee-calculator)). 
+No matter you are running the API in or outside the Docker, you should now be able to send a POST request at `localhost:FLASK_PORT/delivery-fee-calculator` locally (by default: [localhost:8080/delivery-fee-calculator](localhost:8080/delivery-fee-calculator)). 
 
 The request payload should contain the following fields:
 | Field             | Type  | Description                                                               | Example value                             |
@@ -98,7 +98,7 @@ There are several parameters for calculating the final delivery cost in the API 
 `surcharge_per_item_cent` is charged per item. An extra one-time surcharge `many_items_surcharge_cent` will be charged when there are `extra_surcharge_n_items` or more cart items.
 
 **Policy regarding to order during rush hours**: When the order
-is placed during the rush time, the total fee will be multiplied by `rush_multiplier` (result is rounded up if the multiplier is a floating number). Rush hours are defined by `rush_days`, `rush_hours_begin` and `rush_hours_end` (in `time_zone`, by default UTC).
+is placed during the rush time, the total fee will be multiplied by `rush_multiplier` (result is rounded up if the multiplier is a floating number). Rush hours are defined by `rush_hours` (list consisting of dictionaries with `day_of_week`, `begin_time` and `end_time`) in `time_zone` (by default UTC).
 
 **NOTES**: Parameters regarding charges should be set up **in CENTS**.
 
@@ -106,3 +106,6 @@ is placed during the rush time, the total fee will be multiplied by `rush_multip
 Extra loggers for HTTP requests, responses & errors are available for docker deployment.
 You may configure the `LOG_PATH` for the container and `HOST_LOG_PATH` for the binded volumne on the host machine in [.env](.env). 
 Logs can then be found in `delivery_fee_api_http.log` under the configured path.
+
+## Test 
+`make test` to run all the tests in `test/`.
