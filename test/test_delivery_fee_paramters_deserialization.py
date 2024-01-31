@@ -3,6 +3,7 @@ import pytest
 from delivery_fee_api.structures.delivery_fee_params import DeliveryFeeParameters, TimeSlot
 from delivery_fee_api.constants import DELIVERY_FEE_PARAMETERS
 
+
 def test_parsing_params_in_config():
     assert DELIVERY_FEE_PARAMETERS.small_cart_value == 1000
     assert DELIVERY_FEE_PARAMETERS.large_cart_value == 20000
@@ -39,7 +40,9 @@ def test_parsing_params_in_config():
     assert isinstance(DELIVERY_FEE_PARAMETERS.rush_multiplier, float)
     assert isinstance(DELIVERY_FEE_PARAMETERS.time_zone, str)
 
-    assert all([timeslot for timeslot in DELIVERY_FEE_PARAMETERS.rush_hours if isinstance(timeslot, TimeSlot)])
+    assert all([timeslot for timeslot in DELIVERY_FEE_PARAMETERS.rush_hours if isinstance(
+        timeslot, TimeSlot)])
+
 
 def test_missing_small_cart_value_cent():
     params = {
@@ -54,7 +57,7 @@ def test_missing_small_cart_value_cent():
         "surcharge_per_item_cent": 50,
         "extra_surcharge_n_items": 12,
         "many_items_surcharge_cent": 120,
-        
+
         "rush_multiplier": 1.2,
         "rush_hours": [
             {
@@ -63,15 +66,16 @@ def test_missing_small_cart_value_cent():
                 "end_time": "19:00"
             }
         ],
-    "time_zone": "Europe/Berlin"
-}
+        "time_zone": "Europe/Berlin"
+    }
 
     with pytest.raises(ValidationError):
         DeliveryFeeParameters.model_validate(params)
+
 
 def test_missing_large_cart_value_cent():
     params = {
-        "small_cart_value_cent": 1000, 
+        "small_cart_value_cent": 1000,
         "max_delivery_fee_cent": 1500,
         "init_distance_meter": 1000,
         "init_distance_fee_cent": 200,
@@ -82,7 +86,7 @@ def test_missing_large_cart_value_cent():
         "surcharge_per_item_cent": 50,
         "extra_surcharge_n_items": 12,
         "many_items_surcharge_cent": 120,
-        
+
         "rush_multiplier": 1.2,
         "rush_hours": [
             {
@@ -95,10 +99,11 @@ def test_missing_large_cart_value_cent():
     }
     with pytest.raises(ValidationError):
         DeliveryFeeParameters.model_validate(params)
+
 
 def test_missing_max_delivery_fee_cent():
     params = {
-        "small_cart_value_cent": 1000, 
+        "small_cart_value_cent": 1000,
         "large_cart_value_cent": 20000,
         "init_distance_meter": 1000,
         "init_distance_fee_cent": 200,
@@ -109,7 +114,7 @@ def test_missing_max_delivery_fee_cent():
         "surcharge_per_item_cent": 50,
         "extra_surcharge_n_items": 12,
         "many_items_surcharge_cent": 120,
-        
+
         "rush_multiplier": 1.2,
         "rush_hours": [
             {
@@ -122,10 +127,11 @@ def test_missing_max_delivery_fee_cent():
     }
     with pytest.raises(ValidationError):
         DeliveryFeeParameters.model_validate(params)
+
 
 def test_missing_init_distance_meter():
     params = {
-        "small_cart_value_cent": 1000, 
+        "small_cart_value_cent": 1000,
         "large_cart_value_cent": 20000,
         "max_delivery_fee_cent": 1500,
         "init_distance_fee_cent": 200,
@@ -136,7 +142,7 @@ def test_missing_init_distance_meter():
         "surcharge_per_item_cent": 50,
         "extra_surcharge_n_items": 12,
         "many_items_surcharge_cent": 120,
-        
+
         "rush_multiplier": 1.2,
         "rush_hours": [
             {
@@ -149,10 +155,11 @@ def test_missing_init_distance_meter():
     }
     with pytest.raises(ValidationError):
         DeliveryFeeParameters.model_validate(params)
+
 
 def test_missing_init_distance_fee_cent():
     params = {
-        "small_cart_value_cent": 1000, 
+        "small_cart_value_cent": 1000,
         "large_cart_value_cent": 20000,
         "max_delivery_fee_cent": 1500,
         "init_distance_meter": 1000,
@@ -163,7 +170,7 @@ def test_missing_init_distance_fee_cent():
         "surcharge_per_item_cent": 50,
         "extra_surcharge_n_items": 12,
         "many_items_surcharge_cent": 120,
-        
+
         "rush_multiplier": 1.2,
         "rush_hours": [
             {
@@ -176,10 +183,11 @@ def test_missing_init_distance_fee_cent():
     }
     with pytest.raises(ValidationError):
         DeliveryFeeParameters.model_validate(params)
+
 
 def test_missing_distance_interval_meter():
     params = {
-        "small_cart_value_cent": 1000, 
+        "small_cart_value_cent": 1000,
         "large_cart_value_cent": 20000,
         "max_delivery_fee_cent": 1500,
         "init_distance_meter": 1000,
@@ -190,7 +198,7 @@ def test_missing_distance_interval_meter():
         "surcharge_per_item_cent": 50,
         "extra_surcharge_n_items": 12,
         "many_items_surcharge_cent": 120,
-        
+
         "rush_multiplier": 1.2,
         "rush_hours": [
             {
@@ -203,10 +211,11 @@ def test_missing_distance_interval_meter():
     }
     with pytest.raises(ValidationError):
         DeliveryFeeParameters.model_validate(params)
+
 
 def test_missing_distance_fee_per_interval_cent():
     params = {
-        "small_cart_value_cent": 1000, 
+        "small_cart_value_cent": 1000,
         "large_cart_value_cent": 20000,
         "max_delivery_fee_cent": 1500,
         "init_distance_meter": 1000,
@@ -217,7 +226,7 @@ def test_missing_distance_fee_per_interval_cent():
         "surcharge_per_item_cent": 50,
         "extra_surcharge_n_items": 12,
         "many_items_surcharge_cent": 120,
-        
+
         "rush_multiplier": 1.2,
         "rush_hours": [
             {
@@ -230,10 +239,11 @@ def test_missing_distance_fee_per_interval_cent():
     }
     with pytest.raises(ValidationError):
         DeliveryFeeParameters.model_validate(params)
+
 
 def test_missing_surcharge_free_n_items():
     params = {
-        "small_cart_value_cent": 1000, 
+        "small_cart_value_cent": 1000,
         "large_cart_value_cent": 20000,
         "max_delivery_fee_cent": 1500,
         "init_distance_meter": 1000,
@@ -244,7 +254,7 @@ def test_missing_surcharge_free_n_items():
         "surcharge_per_item_cent": 50,
         "extra_surcharge_n_items": 12,
         "many_items_surcharge_cent": 120,
-        
+
         "rush_multiplier": 1.2,
         "rush_hours": [
             {
@@ -257,10 +267,11 @@ def test_missing_surcharge_free_n_items():
     }
     with pytest.raises(ValidationError):
         DeliveryFeeParameters.model_validate(params)
+
 
 def test_missing_surcharge_per_item_cent():
     params = {
-        "small_cart_value_cent": 1000, 
+        "small_cart_value_cent": 1000,
         "large_cart_value_cent": 20000,
         "max_delivery_fee_cent": 1500,
         "init_distance_meter": 1000,
@@ -271,7 +282,7 @@ def test_missing_surcharge_per_item_cent():
         "surcharge_free_n_items": 4,
         "extra_surcharge_n_items": 12,
         "many_items_surcharge_cent": 120,
-        
+
         "rush_multiplier": 1.2,
         "rush_hours": [
             {
@@ -284,10 +295,11 @@ def test_missing_surcharge_per_item_cent():
     }
     with pytest.raises(ValidationError):
         DeliveryFeeParameters.model_validate(params)
+
 
 def test_missing_extra_surcharge_n_items():
     params = {
-        "small_cart_value_cent": 1000, 
+        "small_cart_value_cent": 1000,
         "large_cart_value_cent": 20000,
         "max_delivery_fee_cent": 1500,
         "init_distance_meter": 1000,
@@ -298,7 +310,7 @@ def test_missing_extra_surcharge_n_items():
         "surcharge_free_n_items": 4,
         "surcharge_per_item_cent": 50,
         "many_items_surcharge_cent": 120,
-        
+
         "rush_multiplier": 1.2,
         "rush_hours": [
             {
@@ -311,10 +323,11 @@ def test_missing_extra_surcharge_n_items():
     }
     with pytest.raises(ValidationError):
         DeliveryFeeParameters.model_validate(params)
+
 
 def test_missing_many_items_surcharge_cent():
     params = {
-        "small_cart_value_cent": 1000, 
+        "small_cart_value_cent": 1000,
         "large_cart_value_cent": 20000,
         "max_delivery_fee_cent": 1500,
         "init_distance_meter": 1000,
@@ -325,7 +338,7 @@ def test_missing_many_items_surcharge_cent():
         "surcharge_free_n_items": 4,
         "surcharge_per_item_cent": 50,
         "extra_surcharge_n_items": 12,
-        
+
         "rush_multiplier": 1.2,
         "rush_hours": [
             {
@@ -338,10 +351,11 @@ def test_missing_many_items_surcharge_cent():
     }
     with pytest.raises(ValidationError):
         DeliveryFeeParameters.model_validate(params)
+
 
 def test_missing_rush_multiplier():
     params = {
-        "small_cart_value_cent": 1000, 
+        "small_cart_value_cent": 1000,
         "large_cart_value_cent": 20000,
         "max_delivery_fee_cent": 1500,
         "init_distance_meter": 1000,
@@ -353,7 +367,7 @@ def test_missing_rush_multiplier():
         "surcharge_per_item_cent": 50,
         "extra_surcharge_n_items": 12,
         "many_items_surcharge_cent": 120,
-        
+
         "rush_hours": [
             {
                 "day_of_week": "Friday",
@@ -365,10 +379,11 @@ def test_missing_rush_multiplier():
     }
     with pytest.raises(ValidationError):
         DeliveryFeeParameters.model_validate(params)
+
 
 def test_missing_rush_hours():
     params = {
-        "small_cart_value_cent": 1000, 
+        "small_cart_value_cent": 1000,
         "large_cart_value_cent": 20000,
         "max_delivery_fee_cent": 1500,
         "init_distance_meter": 1000,
@@ -380,16 +395,17 @@ def test_missing_rush_hours():
         "surcharge_per_item_cent": 50,
         "extra_surcharge_n_items": 12,
         "many_items_surcharge_cent": 120,
-        
+
         "rush_multiplier": 1.2,
         "time_zone": "Europe/Berlin"
     }
     with pytest.raises(ValidationError):
         DeliveryFeeParameters.model_validate(params)
 
+
 def test_missing_time_zone():
     params = {
-        "small_cart_value_cent": 1000, 
+        "small_cart_value_cent": 1000,
         "large_cart_value_cent": 20000,
         "max_delivery_fee_cent": 1500,
         "init_distance_meter": 1000,
@@ -401,7 +417,7 @@ def test_missing_time_zone():
         "surcharge_per_item_cent": 50,
         "extra_surcharge_n_items": 12,
         "many_items_surcharge_cent": 120,
-        
+
         "rush_multiplier": 1.2,
         "rush_hours": [
             {
@@ -414,9 +430,10 @@ def test_missing_time_zone():
     with pytest.raises(ValidationError):
         DeliveryFeeParameters.model_validate(params)
 
+
 def test_empty_rush_hours():
     params = {
-        "small_cart_value_cent": 1000, 
+        "small_cart_value_cent": 1000,
         "large_cart_value_cent": 20000,
         "max_delivery_fee_cent": 1500,
         "init_distance_meter": 1000,
@@ -428,16 +445,17 @@ def test_empty_rush_hours():
         "surcharge_per_item_cent": 50,
         "extra_surcharge_n_items": 12,
         "many_items_surcharge_cent": 120,
-        
+
         "rush_multiplier": 1.2,
         "rush_hours": [],
         "time_zone": "Europe/Berlin"
     }
     assert DeliveryFeeParameters.model_validate(params)
 
+
 def test_empty_rush_hours_day_of_week():
     params = {
-        "small_cart_value_cent": 1000, 
+        "small_cart_value_cent": 1000,
         "large_cart_value_cent": 20000,
         "max_delivery_fee_cent": 1500,
         "init_distance_meter": 1000,
@@ -449,20 +467,21 @@ def test_empty_rush_hours_day_of_week():
         "surcharge_per_item_cent": 50,
         "extra_surcharge_n_items": 12,
         "many_items_surcharge_cent": 120,
-        
+
         "rush_multiplier": 1.2,
         "rush_hours": [{
-                "day_of_week": "Friday",
-                "begin_time": "15:00",
-                "end_time": "19:00"
-            }],
+            "day_of_week": "Friday",
+            "begin_time": "15:00",
+            "end_time": "19:00"
+        }],
         "time_zone": "Europe/Berlin"
     }
     assert DeliveryFeeParameters.model_validate(params)
-    
+
+
 def test_invalid_value_small_cart_value_cent():
     params = {
-        "small_cart_value_cent": -1000, 
+        "small_cart_value_cent": -1000,
         "large_cart_value_cent": 20000,
         "max_delivery_fee_cent": 1500,
         "init_distance_meter": 1000,
@@ -474,7 +493,7 @@ def test_invalid_value_small_cart_value_cent():
         "surcharge_per_item_cent": 50,
         "extra_surcharge_n_items": 12,
         "many_items_surcharge_cent": 120,
-        
+
         "rush_multiplier": 1.2,
         "rush_hours": [
             {
@@ -488,9 +507,10 @@ def test_invalid_value_small_cart_value_cent():
     with pytest.raises(ValidationError):
         DeliveryFeeParameters.model_validate(params)
 
+
 def test_invalid_value_large_cart_value_cent():
     params = {
-        "small_cart_value_cent": 1000, 
+        "small_cart_value_cent": 1000,
         "large_cart_value_cent": -20000,
         "max_delivery_fee_cent": 1500,
         "init_distance_meter": 1000,
@@ -502,7 +522,7 @@ def test_invalid_value_large_cart_value_cent():
         "surcharge_per_item_cent": 50,
         "extra_surcharge_n_items": 12,
         "many_items_surcharge_cent": 120,
-        
+
         "rush_multiplier": 1.2,
         "rush_hours": [
             {
@@ -516,9 +536,10 @@ def test_invalid_value_large_cart_value_cent():
     with pytest.raises(ValidationError):
         DeliveryFeeParameters.model_validate(params)
 
+
 def test_invalid_value_max_delivery_fee_cent():
     params = {
-        "small_cart_value_cent": 1000, 
+        "small_cart_value_cent": 1000,
         "large_cart_value_cent": 20000,
         "max_delivery_fee_cent": -1500,
         "init_distance_meter": 1000,
@@ -530,7 +551,7 @@ def test_invalid_value_max_delivery_fee_cent():
         "surcharge_per_item_cent": 50,
         "extra_surcharge_n_items": 12,
         "many_items_surcharge_cent": 120,
-        
+
         "rush_multiplier": 1.2,
         "rush_hours": [
             {
@@ -544,9 +565,10 @@ def test_invalid_value_max_delivery_fee_cent():
     with pytest.raises(ValidationError):
         DeliveryFeeParameters.model_validate(params)
 
+
 def test_invalid_value_init_distance_meter():
     params = {
-        "small_cart_value_cent": 1000, 
+        "small_cart_value_cent": 1000,
         "large_cart_value_cent": 20000,
         "max_delivery_fee_cent": 1500,
         "init_distance_meter": -1000,
@@ -558,7 +580,7 @@ def test_invalid_value_init_distance_meter():
         "surcharge_per_item_cent": 50,
         "extra_surcharge_n_items": 12,
         "many_items_surcharge_cent": 120,
-        
+
         "rush_multiplier": 1.2,
         "rush_hours": [
             {
@@ -572,9 +594,10 @@ def test_invalid_value_init_distance_meter():
     with pytest.raises(ValidationError):
         DeliveryFeeParameters.model_validate(params)
 
+
 def test_invalid_value_init_distance_fee_cent():
     params = {
-        "small_cart_value_cent": 1000, 
+        "small_cart_value_cent": 1000,
         "large_cart_value_cent": 20000,
         "max_delivery_fee_cent": 1500,
         "init_distance_meter": 1000,
@@ -586,7 +609,7 @@ def test_invalid_value_init_distance_fee_cent():
         "surcharge_per_item_cent": 50,
         "extra_surcharge_n_items": 12,
         "many_items_surcharge_cent": 120,
-        
+
         "rush_multiplier": 1.2,
         "rush_hours": [
             {
@@ -600,9 +623,10 @@ def test_invalid_value_init_distance_fee_cent():
     with pytest.raises(ValidationError):
         DeliveryFeeParameters.model_validate(params)
 
+
 def test_invalid_value_distance_interval_meter():
     params = {
-        "small_cart_value_cent": 1000, 
+        "small_cart_value_cent": 1000,
         "large_cart_value_cent": 20000,
         "max_delivery_fee_cent": 1500,
         "init_distance_meter": 1000,
@@ -614,7 +638,7 @@ def test_invalid_value_distance_interval_meter():
         "surcharge_per_item_cent": 50,
         "extra_surcharge_n_items": 12,
         "many_items_surcharge_cent": 120,
-        
+
         "rush_multiplier": 1.2,
         "rush_hours": [
             {
@@ -628,9 +652,10 @@ def test_invalid_value_distance_interval_meter():
     with pytest.raises(ValidationError):
         DeliveryFeeParameters.model_validate(params)
 
+
 def test_invalid_value_distance_fee_per_interval_cent():
     params = {
-        "small_cart_value_cent": 1000, 
+        "small_cart_value_cent": 1000,
         "large_cart_value_cent": 20000,
         "max_delivery_fee_cent": 1500,
         "init_distance_meter": 1000,
@@ -642,7 +667,7 @@ def test_invalid_value_distance_fee_per_interval_cent():
         "surcharge_per_item_cent": 50,
         "extra_surcharge_n_items": 12,
         "many_items_surcharge_cent": 120,
-        
+
         "rush_multiplier": 1.2,
         "rush_hours": [
             {
@@ -656,9 +681,10 @@ def test_invalid_value_distance_fee_per_interval_cent():
     with pytest.raises(ValidationError):
         DeliveryFeeParameters.model_validate(params)
 
+
 def test_invalid_value_surcharge_free_n_items():
     params = {
-        "small_cart_value_cent": 1000, 
+        "small_cart_value_cent": 1000,
         "large_cart_value_cent": 20000,
         "max_delivery_fee_cent": 1500,
         "init_distance_meter": 1000,
@@ -670,7 +696,7 @@ def test_invalid_value_surcharge_free_n_items():
         "surcharge_per_item_cent": 50,
         "extra_surcharge_n_items": 12,
         "many_items_surcharge_cent": 120,
-        
+
         "rush_multiplier": 1.2,
         "rush_hours": [
             {
@@ -684,9 +710,10 @@ def test_invalid_value_surcharge_free_n_items():
     with pytest.raises(ValidationError):
         DeliveryFeeParameters.model_validate(params)
 
+
 def test_invalid_value_surcharge_per_item_cent():
     params = {
-        "small_cart_value_cent": 1000, 
+        "small_cart_value_cent": 1000,
         "large_cart_value_cent": 20000,
         "max_delivery_fee_cent": 1500,
         "init_distance_meter": 1000,
@@ -698,7 +725,7 @@ def test_invalid_value_surcharge_per_item_cent():
         "surcharge_per_item_cent": -50,
         "extra_surcharge_n_items": 12,
         "many_items_surcharge_cent": 120,
-        
+
         "rush_multiplier": 1.2,
         "rush_hours": [
             {
@@ -712,9 +739,10 @@ def test_invalid_value_surcharge_per_item_cent():
     with pytest.raises(ValidationError):
         DeliveryFeeParameters.model_validate(params)
 
+
 def test_invalid_value_extra_surcharge_n_items():
     params = {
-        "small_cart_value_cent": 1000, 
+        "small_cart_value_cent": 1000,
         "large_cart_value_cent": 20000,
         "max_delivery_fee_cent": 1500,
         "init_distance_meter": 1000,
@@ -726,7 +754,7 @@ def test_invalid_value_extra_surcharge_n_items():
         "surcharge_per_item_cent": 50,
         "extra_surcharge_n_items": -12,
         "many_items_surcharge_cent": 120,
-        
+
         "rush_multiplier": 1.2,
         "rush_hours": [
             {
@@ -740,9 +768,10 @@ def test_invalid_value_extra_surcharge_n_items():
     with pytest.raises(ValidationError):
         DeliveryFeeParameters.model_validate(params)
 
+
 def test_invalid_value_many_items_surcharge_cent():
     params = {
-        "small_cart_value_cent": 1000, 
+        "small_cart_value_cent": 1000,
         "large_cart_value_cent": 20000,
         "max_delivery_fee_cent": 1500,
         "init_distance_meter": 1000,
@@ -754,7 +783,7 @@ def test_invalid_value_many_items_surcharge_cent():
         "surcharge_per_item_cent": 50,
         "extra_surcharge_n_items": 12,
         "many_items_surcharge_cent": -120,
-        
+
         "rush_multiplier": 1.2,
         "rush_hours": [
             {
@@ -768,9 +797,10 @@ def test_invalid_value_many_items_surcharge_cent():
     with pytest.raises(ValidationError):
         DeliveryFeeParameters.model_validate(params)
 
+
 def test_invalid_value_rush_hours():
     params = {
-        "small_cart_value_cent": 1000, 
+        "small_cart_value_cent": 1000,
         "large_cart_value_cent": 20000,
         "max_delivery_fee_cent": 1500,
         "init_distance_meter": 1000,
@@ -782,7 +812,7 @@ def test_invalid_value_rush_hours():
         "surcharge_per_item_cent": 50,
         "extra_surcharge_n_items": 12,
         "many_items_surcharge_cent": 120,
-        
+
         "rush_multiplier": 1.2,
         "rush_hours": [
             {},
@@ -792,9 +822,10 @@ def test_invalid_value_rush_hours():
     with pytest.raises(ValidationError):
         DeliveryFeeParameters.model_validate(params)
 
+
 def test_invalid_value_time_zone():
     params = {
-        "small_cart_value_cent": 1000, 
+        "small_cart_value_cent": 1000,
         "large_cart_value_cent": 20000,
         "max_delivery_fee_cent": 1500,
         "init_distance_meter": 1000,
@@ -806,7 +837,7 @@ def test_invalid_value_time_zone():
         "surcharge_per_item_cent": 50,
         "extra_surcharge_n_items": 12,
         "many_items_surcharge_cent": 120,
-        
+
         "rush_multiplier": 1.2,
         "rush_hours": [
             {
@@ -820,11 +851,12 @@ def test_invalid_value_time_zone():
     with pytest.raises(ValidationError):
         DeliveryFeeParameters.model_validate(params)
 
-##### 
+#####
+
 
 def test_invalid_type_small_cart_value_cent():
     params = {
-        "small_cart_value_cent": "A", 
+        "small_cart_value_cent": "A",
         "large_cart_value_cent": 20000,
         "max_delivery_fee_cent": 1500,
         "init_distance_meter": 1000,
@@ -836,7 +868,7 @@ def test_invalid_type_small_cart_value_cent():
         "surcharge_per_item_cent": 50,
         "extra_surcharge_n_items": 12,
         "many_items_surcharge_cent": 120,
-        
+
         "rush_multiplier": 1.2,
         "rush_hours": [
             {
@@ -851,9 +883,10 @@ def test_invalid_type_small_cart_value_cent():
     with pytest.raises(ValidationError):
         DeliveryFeeParameters.model_validate(params)
 
+
 def test_invalid_type_large_cart_value_cent():
     params = {
-        "small_cart_value_cent": 1000, 
+        "small_cart_value_cent": 1000,
         "large_cart_value_cent": "A",
         "max_delivery_fee_cent": 1500,
         "init_distance_meter": 1000,
@@ -865,7 +898,7 @@ def test_invalid_type_large_cart_value_cent():
         "surcharge_per_item_cent": 50,
         "extra_surcharge_n_items": 12,
         "many_items_surcharge_cent": 120,
-        
+
         "rush_multiplier": 1.2,
         "rush_hours": [
             {
@@ -880,9 +913,10 @@ def test_invalid_type_large_cart_value_cent():
     with pytest.raises(ValidationError):
         DeliveryFeeParameters.model_validate(params)
 
+
 def test_invalid_type_max_delivery_fee_cent():
     params = {
-        "small_cart_value_cent": 1000, 
+        "small_cart_value_cent": 1000,
         "large_cart_value_cent": 20000,
         "max_delivery_fee_cent": "A",
         "init_distance_meter": 1000,
@@ -894,7 +928,7 @@ def test_invalid_type_max_delivery_fee_cent():
         "surcharge_per_item_cent": 50,
         "extra_surcharge_n_items": 12,
         "many_items_surcharge_cent": 120,
-        
+
         "rush_multiplier": 1.2,
         "rush_hours": [
             {
@@ -909,9 +943,10 @@ def test_invalid_type_max_delivery_fee_cent():
     with pytest.raises(ValidationError):
         DeliveryFeeParameters.model_validate(params)
 
+
 def test_invalid_type_init_distance_meter():
     params = {
-        "small_cart_value_cent": 1000, 
+        "small_cart_value_cent": 1000,
         "large_cart_value_cent": 20000,
         "max_delivery_fee_cent": 1500,
         "init_distance_meter": "A",
@@ -923,7 +958,7 @@ def test_invalid_type_init_distance_meter():
         "surcharge_per_item_cent": 50,
         "extra_surcharge_n_items": 12,
         "many_items_surcharge_cent": 120,
-        
+
         "rush_multiplier": 1.2,
         "rush_hours": [
             {
@@ -938,9 +973,10 @@ def test_invalid_type_init_distance_meter():
     with pytest.raises(ValidationError):
         DeliveryFeeParameters.model_validate(params)
 
+
 def test_invalid_type_init_distance_fee_cent():
     params = {
-        "small_cart_value_cent": 1000, 
+        "small_cart_value_cent": 1000,
         "large_cart_value_cent": 20000,
         "max_delivery_fee_cent": 1500,
         "init_distance_meter": 1000,
@@ -952,7 +988,7 @@ def test_invalid_type_init_distance_fee_cent():
         "surcharge_per_item_cent": 50,
         "extra_surcharge_n_items": 12,
         "many_items_surcharge_cent": 120,
-        
+
         "rush_multiplier": 1.2,
         "rush_hours": [
             {
@@ -967,9 +1003,10 @@ def test_invalid_type_init_distance_fee_cent():
     with pytest.raises(ValidationError):
         DeliveryFeeParameters.model_validate(params)
 
+
 def test_invalid_type_distance_interval_meter():
     params = {
-        "small_cart_value_cent": 1000, 
+        "small_cart_value_cent": 1000,
         "large_cart_value_cent": 20000,
         "max_delivery_fee_cent": 1500,
         "init_distance_meter": 1000,
@@ -981,7 +1018,7 @@ def test_invalid_type_distance_interval_meter():
         "surcharge_per_item_cent": 50,
         "extra_surcharge_n_items": 12,
         "many_items_surcharge_cent": 120,
-        
+
         "rush_multiplier": 1.2,
         "rush_hours": [
             {
@@ -996,9 +1033,10 @@ def test_invalid_type_distance_interval_meter():
     with pytest.raises(ValidationError):
         DeliveryFeeParameters.model_validate(params)
 
+
 def test_invalid_type_distance_fee_per_interval_cent():
     params = {
-        "small_cart_value_cent": 1000, 
+        "small_cart_value_cent": 1000,
         "large_cart_value_cent": 20000,
         "max_delivery_fee_cent": 1500,
         "init_distance_meter": 1000,
@@ -1010,7 +1048,7 @@ def test_invalid_type_distance_fee_per_interval_cent():
         "surcharge_per_item_cent": 50,
         "extra_surcharge_n_items": 12,
         "many_items_surcharge_cent": 120,
-        
+
         "rush_multiplier": 1.2,
         "rush_hours": [
             {
@@ -1025,9 +1063,10 @@ def test_invalid_type_distance_fee_per_interval_cent():
     with pytest.raises(ValidationError):
         DeliveryFeeParameters.model_validate(params)
 
+
 def test_invalid_type_surcharge_free_n_items():
     params = {
-        "small_cart_value_cent": 1000, 
+        "small_cart_value_cent": 1000,
         "large_cart_value_cent": 20000,
         "max_delivery_fee_cent": 1500,
         "init_distance_meter": 1000,
@@ -1039,7 +1078,7 @@ def test_invalid_type_surcharge_free_n_items():
         "surcharge_per_item_cent": 50,
         "extra_surcharge_n_items": 12,
         "many_items_surcharge_cent": 120,
-        
+
         "rush_multiplier": 1.2,
         "rush_hours": [
             {
@@ -1054,9 +1093,10 @@ def test_invalid_type_surcharge_free_n_items():
     with pytest.raises(ValidationError):
         DeliveryFeeParameters.model_validate(params)
 
+
 def test_invalid_type_surcharge_per_item_cent():
     params = {
-        "small_cart_value_cent": 1000, 
+        "small_cart_value_cent": 1000,
         "large_cart_value_cent": 20000,
         "max_delivery_fee_cent": 1500,
         "init_distance_meter": 1000,
@@ -1068,7 +1108,7 @@ def test_invalid_type_surcharge_per_item_cent():
         "surcharge_per_item_cent": "A",
         "extra_surcharge_n_items": 12,
         "many_items_surcharge_cent": 120,
-        
+
         "rush_multiplier": 1.2,
         "rush_hours": [
             {
@@ -1083,9 +1123,10 @@ def test_invalid_type_surcharge_per_item_cent():
     with pytest.raises(ValidationError):
         DeliveryFeeParameters.model_validate(params)
 
+
 def test_invalid_type_extra_surcharge_n_items():
     params = {
-        "small_cart_value_cent": 1000, 
+        "small_cart_value_cent": 1000,
         "large_cart_value_cent": 20000,
         "max_delivery_fee_cent": 1500,
         "init_distance_meter": 1000,
@@ -1097,7 +1138,7 @@ def test_invalid_type_extra_surcharge_n_items():
         "surcharge_per_item_cent": 50,
         "extra_surcharge_n_items": "A",
         "many_items_surcharge_cent": 120,
-        
+
         "rush_multiplier": 1.2,
         "rush_hours": [
             {
@@ -1112,9 +1153,10 @@ def test_invalid_type_extra_surcharge_n_items():
     with pytest.raises(ValidationError):
         DeliveryFeeParameters.model_validate(params)
 
+
 def test_invalid_type_many_items_surcharge_cent():
     params = {
-        "small_cart_value_cent": "A", 
+        "small_cart_value_cent": "A",
         "large_cart_value_cent": 20000,
         "max_delivery_fee_cent": 1500,
         "init_distance_meter": 1000,
@@ -1126,7 +1168,7 @@ def test_invalid_type_many_items_surcharge_cent():
         "surcharge_per_item_cent": 50,
         "extra_surcharge_n_items": 12,
         "many_items_surcharge_cent": "A",
-        
+
         "rush_multiplier": 1.2,
         "rush_hours": [
             {
@@ -1141,9 +1183,10 @@ def test_invalid_type_many_items_surcharge_cent():
     with pytest.raises(ValidationError):
         DeliveryFeeParameters.model_validate(params)
 
+
 def test_invalid_type_rush_multiplier():
     params = {
-        "small_cart_value_cent": 1000, 
+        "small_cart_value_cent": 1000,
         "large_cart_value_cent": 20000,
         "max_delivery_fee_cent": 1500,
         "init_distance_meter": 1000,
@@ -1155,7 +1198,7 @@ def test_invalid_type_rush_multiplier():
         "surcharge_per_item_cent": 50,
         "extra_surcharge_n_items": 12,
         "many_items_surcharge_cent": 120,
-        
+
         "rush_multiplier": "A",
         "rush_hours": [
             {
@@ -1170,9 +1213,10 @@ def test_invalid_type_rush_multiplier():
     with pytest.raises(ValidationError):
         DeliveryFeeParameters.model_validate(params)
 
+
 def test_invalid_type_rush_hours():
     params = {
-        "small_cart_value_cent": 1000, 
+        "small_cart_value_cent": 1000,
         "large_cart_value_cent": 20000,
         "max_delivery_fee_cent": 1500,
         "init_distance_meter": 1000,
@@ -1184,7 +1228,7 @@ def test_invalid_type_rush_hours():
         "surcharge_per_item_cent": 50,
         "extra_surcharge_n_items": 12,
         "many_items_surcharge_cent": 120,
-        
+
         "rush_multiplier": 1.2,
         "rush_hours": [
             "Hello", "wrong inputs"
@@ -1195,9 +1239,10 @@ def test_invalid_type_rush_hours():
     with pytest.raises(ValidationError):
         DeliveryFeeParameters.model_validate(params)
 
+
 def test_invalid_type_time_zone():
     params = {
-        "small_cart_value_cent": "A", 
+        "small_cart_value_cent": "A",
         "large_cart_value_cent": 20000,
         "max_delivery_fee_cent": 1500,
         "init_distance_meter": 1000,
@@ -1209,7 +1254,7 @@ def test_invalid_type_time_zone():
         "surcharge_per_item_cent": 50,
         "extra_surcharge_n_items": 12,
         "many_items_surcharge_cent": 120,
-        
+
         "rush_multiplier": 1.2,
         "rush_hours": [
             {
@@ -1223,5 +1268,3 @@ def test_invalid_type_time_zone():
 
     with pytest.raises(ValidationError):
         DeliveryFeeParameters.model_validate(params)
-
-

@@ -4,7 +4,6 @@ from flask import Blueprint, request
 from werkzeug.exceptions import BadRequest
 
 from delivery_fee_api.structures.payload import DeliveryFeeRequestPayload, DeliveryFeeResponsePayload
-from delivery_fee_api.structures.delivery_fee_params import DeliveryFeeParameters
 from delivery_fee_api.delivery_fee_calculator import total_delivery_fee
 from delivery_fee_api.constants import DELIVERY_FEE_PARAMETERS
 

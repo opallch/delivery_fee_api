@@ -1,7 +1,4 @@
-import os
 import logging
-from logging.config import dictConfig
-from pathlib import Path
 from flask import Flask
 from delivery_fee_api import blueprints
 
