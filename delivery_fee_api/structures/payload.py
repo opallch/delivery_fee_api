@@ -1,11 +1,11 @@
 from dateutil import parser
-from pydantic import BaseModel, field_validator
+from pydantic import BaseModel, PositiveInt, field_validator
 
 
 class DeliveryFeeRequestPayload(BaseModel):
-    cart_value: int # in cents
-    delivery_distance: int # in meters
-    number_of_items: int
+    cart_value: PositiveInt # in cents
+    delivery_distance: PositiveInt # in meters
+    number_of_items: PositiveInt
     time: str # in ISO format, e.g. 2024-01-15T13:00:00Z
     
     @field_validator('time', mode='before')
@@ -18,4 +18,4 @@ class DeliveryFeeRequestPayload(BaseModel):
         return time
 
 class DeliveryFeeResponsePayload(BaseModel):
-    delivery_fee: int
+    delivery_fee: PositiveInt
