@@ -17,7 +17,7 @@ def test_parsing_params_in_config():
     assert DELIVERY_FEE_PARAMETERS.extra_surcharge_n_items == 12
     assert DELIVERY_FEE_PARAMETERS.many_items_surcharge == 120
     assert DELIVERY_FEE_PARAMETERS.rush_multiplier == 1.2
-    assert DELIVERY_FEE_PARAMETERS.time_zone == "Europe/Berlin"
+    assert DELIVERY_FEE_PARAMETERS.time_zone == "UTC"
 
     assert DELIVERY_FEE_PARAMETERS.rush_hours == [
         TimeSlot.model_validate({

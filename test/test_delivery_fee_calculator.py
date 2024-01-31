@@ -18,6 +18,10 @@ with open('test/test_delivery_params/multiple_rush_hours.json', 'r') as f_in:
 with open('test/test_delivery_params/no_rush_hours.json', 'r') as f_in:
     PARAMS_NO_RUSH_HOURS = DeliveryFeeParameters.model_validate_json(
         f_in.read())
+    
+with open('test/test_delivery_params/timezone_bangkok.json', 'r') as f_in:
+    PARAMS_DIFF_TZ = DeliveryFeeParameters.model_validate_json(
+        f_in.read())
 
 PAYLOAD = DeliveryFeeRequestPayload.model_validate(
     {
@@ -43,6 +47,15 @@ PAYLOAD_RUSH_FOR_PARAMS_MULTI_RUSH_HOURS = DeliveryFeeRequestPayload.model_valid
         "delivery_distance": 2235,
         "number_of_items": 4,
         "time": "2024-01-06T22:00:07Z"
+    }
+)
+
+PAYLOAD_RUSH_FOR_DIFF_TZ = DeliveryFeeRequestPayload.model_validate(
+    {
+        "cart_value": 790,
+        "delivery_distance": 2235,
+        "number_of_items": 4,
+        "time": "2024-01-05T10:00:07Z"
     }
 )
 
@@ -142,6 +155,12 @@ def test_ordered_in_rush_true_2():
         PARAMS_MULTI_RUSH_HOURS,
         PAYLOAD_RUSH_FOR_PARAMS_MULTI_RUSH_HOURS.time) == True
 
+# TODO
+def test_ordered_in_rush_true_3():
+    assert ordered_in_rush(
+        PARAMS_DIFF_TZ,
+        PAYLOAD_RUSH_FOR_DIFF_TZ.time) == True
+
 
 def test_ordered_in_rush_false_1():
     assert ordered_in_rush(PARAMS, PAYLOAD.time) == False
@@ -159,6 +178,12 @@ def test_ordered_in_rush_false_4():
     assert ordered_in_rush(
         PARAMS_NO_RUSH_HOURS,
         PAYLOAD_RUSH_FOR_PARAMS_MULTI_RUSH_HOURS.time) == False
+    
+# TODO
+def test_ordered_in_rush_false_5():
+    assert ordered_in_rush(
+        PARAMS_DIFF_TZ,
+        PAYLOAD.time) == False
 
 
 def test_time_in_time_span_true1_1():

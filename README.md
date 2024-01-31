@@ -98,7 +98,7 @@ There are several parameters for calculating the final delivery cost in the API 
 `surcharge_per_item_cent` is charged per item. An extra one-time surcharge `many_items_surcharge_cent` will be charged when there are `extra_surcharge_n_items` or more cart items.
 
 **Policy regarding to order during rush hours**: When the order
-is placed during the rush time, the total fee will be multiplied by `rush_multiplier` (result is rounded up if the multiplier is a floating number). Rush hours are defined by `rush_days`, `rush_hours_begin` and `rush_hours_end` (in `time_zone`).
+is placed during the rush time, the total fee will be multiplied by `rush_multiplier` (result is rounded up if the multiplier is a floating number). Rush hours are defined by `rush_days`, `rush_hours_begin` and `rush_hours_end` (in `time_zone`, by default UTC).
 
 **NOTES**: Parameters regarding charges should be set up **in CENTS**.
 

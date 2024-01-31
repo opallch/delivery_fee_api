@@ -16,5 +16,5 @@
     
     "rush_multiplier": 1.2,
     "rush_hours": [],
-    "time_zone": "Europe/Berlin"
+    "time_zone": "UTC"
 }
