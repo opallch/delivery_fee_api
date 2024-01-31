@@ -48,7 +48,7 @@ PAYLOAD_RUSH_FOR_PARAMS_MULTI_RUSH_HOURS = DeliveryFeeRequestPayload.model_valid
 
 PAYLOAD_LARGE_CART_VAL = DeliveryFeeRequestPayload.model_validate(
     {
-        "cart_value": 201 * 100,
+        "cart_value": 20100,
         "delivery_distance": 2235,
         "number_of_items": 4,
         "time": "2024-01-19T18:59:00Z"
@@ -73,15 +73,15 @@ def test_delivery_surcharge_small_cart_value():
 
 
 def test_delivery_fee_distance_1():
-    assert delivery_fee_distance(PARAMS, distance=1499) == 3 * 100
+    assert delivery_fee_distance(PARAMS, distance=1499) == 300
 
 
 def test_delivery_fee_distance_2():
-    assert delivery_fee_distance(PARAMS, distance=1500) == 3 * 100
+    assert delivery_fee_distance(PARAMS, distance=1500) == 300
 
 
 def test_delivery_fee_distance_3():
-    assert delivery_fee_distance(PARAMS, distance=1501) == 4 * 100
+    assert delivery_fee_distance(PARAMS, distance=1501) == 400
 
 
 def test_delivery_fee_n_items_1():
@@ -89,19 +89,19 @@ def test_delivery_fee_n_items_1():
 
 
 def test_delivery_fee_n_items_2():
-    assert delivery_fee_n_items(PARAMS, n_items=5) == 0.5 * 100
+    assert delivery_fee_n_items(PARAMS, n_items=5) == 50
 
 
 def test_delivery_fee_n_items_3():
-    assert delivery_fee_n_items(PARAMS, n_items=10) == 3 * 100
+    assert delivery_fee_n_items(PARAMS, n_items=10) == 300
 
 
 def test_delivery_fee_n_items_4():
-    assert delivery_fee_n_items(PARAMS, n_items=13) == 5.7 * 100
+    assert delivery_fee_n_items(PARAMS, n_items=13) == 570
 
 
 def test_delivery_fee_n_items_5():
-    assert delivery_fee_n_items(PARAMS, n_items=14) == 6.2 * 100
+    assert delivery_fee_n_items(PARAMS, n_items=14) == 620
 
 
 def test_ordered_in_rush_true_1():
