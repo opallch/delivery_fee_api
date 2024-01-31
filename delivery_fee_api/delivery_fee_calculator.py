@@ -1,3 +1,4 @@
+import math
 from datetime import datetime
 from dateutil import parser
 from delivery_fee_api.structures.payload import DeliveryFeeRequestPayload
@@ -7,7 +8,7 @@ from delivery_fee_api.structures.delivery_fee_params import DeliveryFeeParameter
 def total_delivery_fee(params:DeliveryFeeParameters, payload:DeliveryFeeRequestPayload) -> int:
     """returns total delivery fee by calling different
     functions returning subtotal of delivery fee."""
-    total_in_cents = 0.0
+    total_in_cents = 0
     
     if payload.cart_value >= params.large_cart_value:
         return total_in_cents
@@ -19,7 +20,7 @@ def total_delivery_fee(params:DeliveryFeeParameters, payload:DeliveryFeeRequestP
     total_in_cents += delivery_fee_n_items(params, payload.number_of_items)
     
     if ordered_in_rush(params, payload.time):
-        total_in_cents = int(total_in_cents * params.rush_multiplier)
+        total_in_cents = math.ceil(total_in_cents * params.rush_multiplier)
 
     return min(total_in_cents, params.max_delivery_fee)
 
@@ -38,7 +39,7 @@ def delivery_fee_distance(params:DeliveryFeeParameters, distance:int) -> int:
 
 def delivery_fee_n_items(params:DeliveryFeeParameters, n_items:int) -> int:
     """returns delivery fee based on policy regarding no. of cart items."""
-    subtotal_in_cent = 0.0
+    subtotal_in_cent = 0
     if n_items > params.surcharge_free_n_items:
         subtotal_in_cent += (n_items - params.surcharge_free_n_items) * params.surcharge_per_item
     if n_items > params.extra_surcharge_n_items:

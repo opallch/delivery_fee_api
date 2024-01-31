@@ -1,4 +1,4 @@
-from pydantic import BaseModel, field_validator, ConfigDict, Field
+from pydantic import BaseModel, field_validator, ConfigDict, Field, PositiveInt, PositiveFloat
 from datetime import datetime
 from dateutil import tz
 from typing import List
@@ -33,37 +33,23 @@ class DeliveryFeeParameters(BaseModel):
     needed for calculating the delievery fee."""
     model_config = ConfigDict(frozen=True)
 
-    small_cart_value: int = Field(alias="small_cart_value_euro")
-    large_cart_value: int = Field(alias="large_cart_value_euro")
-    max_delivery_fee: int = Field(alias="max_delivery_fee_euro")
+    small_cart_value: PositiveInt = Field(alias="small_cart_value_cent")
+    large_cart_value: PositiveInt = Field(alias="large_cart_value_cent")
+    max_delivery_fee: PositiveInt = Field(alias="max_delivery_fee_cent")
     
-    init_distance_meter: int
-    init_distance_fee: int = Field(alias="init_distance_fee_euro")
-    distance_interval_meter: int 
-    distance_fee_per_interval: int = Field(alias="distance_fee_per_interval_euro")
+    init_distance_meter: PositiveInt
+    init_distance_fee: PositiveInt = Field(alias="init_distance_fee_cent")
+    distance_interval_meter: PositiveInt 
+    distance_fee_per_interval: PositiveInt = Field(alias="distance_fee_per_interval_cent")
 
-    surcharge_free_n_items: int 
-    surcharge_per_item: int = Field(alias="surcharge_per_item_euro")
-    extra_surcharge_n_items: int
-    many_items_surcharge: int = Field(alias="many_items_surcharge_euro")
+    surcharge_free_n_items: PositiveInt 
+    surcharge_per_item: PositiveInt = Field(alias="surcharge_per_item_cent")
+    extra_surcharge_n_items: PositiveInt
+    many_items_surcharge: PositiveInt = Field(alias="many_items_surcharge_cent")
 
-    rush_multiplier: float
+    rush_multiplier: PositiveFloat
     rush_hours: List[TimeSlot]
     time_zone: str
-
-    @field_validator(
-            'small_cart_value',
-            'large_cart_value',
-            'max_delivery_fee',
-            'init_distance_fee',
-            'distance_fee_per_interval',
-            'surcharge_per_item',
-            'many_items_surcharge',
-            mode='before'
-            )
-    @classmethod
-    def _parse_euro_to_cent(cls, value_euro, values):
-        return int(value_euro * 100)
 
     @field_validator('rush_hours')
     @classmethod

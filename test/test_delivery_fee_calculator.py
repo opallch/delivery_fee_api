@@ -60,7 +60,7 @@ def test_total_delivery_fee_3():
     assert total_delivery_fee(PARAMS, PAYLOAD_RUSH_FOR_PARAMS) == 852
 
 def test_delivery_surcharge_small_cart_value():
-    assert int(delivery_surcharge_small_cart_value(PARAMS, 8.9 * 100)) == int(1.1 * 100)
+    assert delivery_surcharge_small_cart_value(PARAMS, 890) == 110
 
 def test_delivery_fee_distance_1():
     assert delivery_fee_distance(PARAMS, distance=1499) == 3 * 100

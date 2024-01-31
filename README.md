@@ -88,19 +88,19 @@ For instance, if a string `'Hello'` is given as `delivery_instance` in the reque
 There are several parameters for calculating the final delivery cost in the API which are stored in [`delivery_fee_api/config/delivery_fee_parameters.json`](delivery_fee_api/config/delivery_fee_parameters.json), feel free to customize them upon any policy changes:
 
 **Policy regarding cart value**: 
-- If the cart value is less than `small_cart_value_euro`, a surcharge of (cart value - `small_cart_value_euro`) is applied.
-- If the cart value exceeds `large_cart_value_euro`, delivery will be free.
-- Max. of "max_delivery_fee_euro" can be charged for delivery.
+- If the cart value is less than `small_cart_value_cent`, a surcharge of (cart value - `small_cart_value_cent`) is applied.
+- If the cart value exceeds `large_cart_value_cent`, delivery will be free.
+- Max. of "max_delivery_fee_cent" can be charged for delivery.
 
-**Policy regarding delivery distance**: The first `init_distance_meter` will cost `init_distance_fee_euro`; after that, `distance_fee_per_interval_euro` is charged per `distance_interval_meter`.
+**Policy regarding delivery distance**: The first `init_distance_meter` will cost `init_distance_fee_cent`; after that, `distance_fee_per_interval_cent` is charged per `distance_interval_meter`.
 
 **Policy regarding no. of cart items**: When the no. of cart items is more than `surcharge_free_n_items`,
-`surcharge_per_item_euro` is charged per item. An extra one-time surcharge `many_items_surcharge_euro` will be charged when there are `extra_surcharge_n_items` or more cart items.
+`surcharge_per_item_cent` is charged per item. An extra one-time surcharge `many_items_surcharge_cent` will be charged when there are `extra_surcharge_n_items` or more cart items.
 
 **Policy regarding to order during rush hours**: When the order
-is placed during the rush time, the total fee will be multiplied by `rush_multiplier`. Rush hours are defined by `rush_days`, `rush_hours_begin` and `rush_hours_end` (in `time_zone`).
+is placed during the rush time, the total fee will be multiplied by `rush_multiplier` (result is rounded up if the multiplier is a floating number). Rush hours are defined by `rush_days`, `rush_hours_begin` and `rush_hours_end` (in `time_zone`).
 
-**NOTES**: Parameters regarding charges should be set up **in euros**. They will later be transformed into cents in the API.
+**NOTES**: Parameters regarding charges should be set up **in CENTS**.
 
 ## Logging
 Extra loggers for HTTP requests, responses & errors are available for docker deployment.
