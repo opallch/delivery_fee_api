@@ -14,6 +14,9 @@ from delivery_fee_api.constants import DELIVERY_FEE_PARAMETERS as PARAMS
 with open('test/test_delivery_params/multiple_rush_hours.json', 'r') as f_in:
     PARAMS_MULTI_RUSH_HOURS = DeliveryFeeParameters.model_validate_json(f_in.read())
 
+with open('test/test_delivery_params/no_rush_hours.json', 'r') as f_in:
+    PARAMS_NO_RUSH_HOURS = DeliveryFeeParameters.model_validate_json(f_in.read())
+
 PAYLOAD = DeliveryFeeRequestPayload.model_validate(
     {
         "cart_value": 790, 
@@ -97,6 +100,12 @@ def test_ordered_in_rush_false_1():
 
 def test_ordered_in_rush_false_2():
     assert ordered_in_rush(PARAMS_MULTI_RUSH_HOURS, PAYLOAD.time) == False
+
+def test_ordered_in_rush_false_3():
+    assert ordered_in_rush(PARAMS_NO_RUSH_HOURS, PAYLOAD.time) == False
+
+def test_ordered_in_rush_false_4():
+    assert ordered_in_rush(PARAMS_NO_RUSH_HOURS, PAYLOAD_RUSH_FOR_PARAMS_MULTI_RUSH_HOURS.time) == False
 
 def test_time_in_time_span_true1_1():
     time = datetime.strptime("12:42", "%H:%M")

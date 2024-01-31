@@ -66,3 +66,4 @@ class DeliveryFeeParameters(BaseModel):
     def validate_timezone(cls, timezone):
         if tz.gettz(timezone) is None:
             raise ValueError(f"time_zone defined in the config file '{timezone}' cannot be found, make sure it is on the list at https://en.wikipedia.org/wiki/List_of_tz_database_time_zones")
+        return timezone

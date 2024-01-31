@@ -1,0 +1,20 @@
+{
+    "NOTES": "refer to the README for the descriptions of parameters!",
+    
+    "small_cart_value_cent": 1000, 
+    "large_cart_value_cent": 20000,
+    "max_delivery_fee_cent": 1500,
+    "init_distance_meter": 1000,
+    "init_distance_fee_cent": 200,
+    "distance_interval_meter": 500,
+    "distance_fee_per_interval_cent": 100,
+
+    "surcharge_free_n_items": 4,
+    "surcharge_per_item_cent": 50,
+    "extra_surcharge_n_items": 12,
+    "many_items_surcharge_cent": 120,
+    
+    "rush_multiplier": 1.2,
+    "rush_hours": [],
+    "time_zone": "Europe/Berlin"
+}
