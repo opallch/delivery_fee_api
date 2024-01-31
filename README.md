@@ -14,9 +14,17 @@ Running the API (with development server) is recommended for local development, 
 ```sh
 make
 ```
-4. (optional) Activate the virtual environment
+4. add the this directory path to `PYTHONPATH`
+```sh
+export PYTHONPATH=/path/to/this/directory:$PYTHONPATH
+```
+5. (optional) Activate the virtual environment
 ```sh
 source ./venv/bin/activate
+```
+6. Run Flask app
+```sh
+make run
 ```
 
 ### Running in Docker (with gunicorn)
