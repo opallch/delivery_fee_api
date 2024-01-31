@@ -33,19 +33,19 @@ class DeliveryFeeParameters(BaseModel):
     needed for calculating the delievery fee."""
     model_config = ConfigDict(frozen=True)
 
-    small_cart_value: float = Field(alias="small_cart_value_euro")
-    large_cart_value: float = Field(alias="large_cart_value_euro")
-    max_delivery_fee: float = Field(alias="max_delivery_fee_euro")
+    small_cart_value: int = Field(alias="small_cart_value_euro")
+    large_cart_value: int = Field(alias="large_cart_value_euro")
+    max_delivery_fee: int = Field(alias="max_delivery_fee_euro")
     
     init_distance_meter: int
-    init_distance_fee: float = Field(alias="init_distance_fee_euro")
+    init_distance_fee: int = Field(alias="init_distance_fee_euro")
     distance_interval_meter: int 
-    distance_fee_per_interval: float = Field(alias="distance_fee_per_interval_euro")
+    distance_fee_per_interval: int = Field(alias="distance_fee_per_interval_euro")
 
     surcharge_free_n_items: int 
-    surcharge_per_item: float = Field(alias="surcharge_per_item_euro")
+    surcharge_per_item: int = Field(alias="surcharge_per_item_euro")
     extra_surcharge_n_items: int
-    many_items_surcharge: float = Field(alias="many_items_surcharge_euro")
+    many_items_surcharge: int = Field(alias="many_items_surcharge_euro")
 
     rush_multiplier: float
     rush_hours: List[TimeSlot]
@@ -58,11 +58,12 @@ class DeliveryFeeParameters(BaseModel):
             'init_distance_fee',
             'distance_fee_per_interval',
             'surcharge_per_item',
-            'many_items_surcharge'
+            'many_items_surcharge',
+            mode='before'
             )
     @classmethod
     def _parse_euro_to_cent(cls, value_euro, values):
-        return value_euro * 100
+        return int(value_euro * 100)
 
     @field_validator('rush_hours')
     @classmethod

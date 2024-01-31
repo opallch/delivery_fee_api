@@ -13,20 +13,20 @@ def total_delivery_fee(params:DeliveryFeeParameters, payload:DeliveryFeeRequestP
         return total_in_cents
 
     if payload.cart_value < params.small_cart_value:
-        total_in_cents += delivery_fee_small_cart_value(params, payload.cart_value)
+        total_in_cents += delivery_surcharge_small_cart_value(params, payload.cart_value)
     
     total_in_cents += delivery_fee_distance(params, payload.delivery_distance)
     total_in_cents += delivery_fee_n_items(params, payload.number_of_items)
     
     if ordered_in_rush(params, payload.time):
-        total_in_cents *= params.rush_multiplier
+        total_in_cents = int(total_in_cents * params.rush_multiplier)
 
-    return int(min(total_in_cents, params.max_delivery_fee)) 
+    return min(total_in_cents, params.max_delivery_fee)
 
-def delivery_fee_small_cart_value(params:DeliveryFeeParameters, cart_value:float):
+def delivery_surcharge_small_cart_value(params:DeliveryFeeParameters, cart_value:int):
     return params.small_cart_value - cart_value
 
-def delivery_fee_distance(params:DeliveryFeeParameters, distance:int) -> float:
+def delivery_fee_distance(params:DeliveryFeeParameters, distance:int) -> int:
     """returns delivery fee based on delivery distance policy."""
     subtotal_in_cent = params.init_distance_fee
     if distance - params.init_distance_meter > 0:
@@ -36,7 +36,7 @@ def delivery_fee_distance(params:DeliveryFeeParameters, distance:int) -> float:
             delivery_distance -= params.distance_interval_meter
     return subtotal_in_cent
 
-def delivery_fee_n_items(params:DeliveryFeeParameters, n_items:int) -> float:
+def delivery_fee_n_items(params:DeliveryFeeParameters, n_items:int) -> int:
     """returns delivery fee based on policy regarding no. of cart items."""
     subtotal_in_cent = 0.0
     if n_items > params.surcharge_free_n_items:

@@ -1,0 +1,31 @@
+{
+    "NOTES": "refer to the README for the descriptions of parameters!",
+    
+    "small_cart_value_euro": 10.5, 
+    "large_cart_value_euro": 199.9,
+    "max_delivery_fee_euro": 15.9,
+    "init_distance_meter": 1000,
+    "init_distance_fee_euro": 2.5,
+    "distance_interval_meter": 500,
+    "distance_fee_per_interval_euro": 1.2,
+
+    "surcharge_free_n_items": 4,
+    "surcharge_per_item_euro": 0.58,
+    "extra_surcharge_n_items": 12,
+    "many_items_surcharge_euro": 1.27,
+    
+    "rush_multiplier": 1.2,
+    "rush_hours": [
+        {
+            "day_of_week": "Friday",
+            "begin_time": "15:00",
+            "end_time": "19:00"
+        },
+        {
+            "day_of_week": "Saturday",
+            "begin_time": "17:00",
+            "end_time": "23:00"
+        }
+    ],
+    "time_zone": "Europe/Berlin"
+}
